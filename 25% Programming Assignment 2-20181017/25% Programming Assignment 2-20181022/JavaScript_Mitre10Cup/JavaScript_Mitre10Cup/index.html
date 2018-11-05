@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>BCSE101 18S2 Programming Assignment 1</title>
+  <!-- include source files here... -->
+  <script src="src/View.js"></script>
+  <script src="src/Team.js"></script>
+  <script src="src/Game.js"></script>
+  <script src="src/Competition.js"></script>
+  <script src="src/Controller.js"></script>
+  <div id="divDisplay"></div>
+</head>
+          
+<body>
+  <script>
+	var the2018Competition // GLOBAL FOR DEBUGGING
+    var go = function () {
+	  the2018Competition = Controller.setup()
+	  let theDisplay = document.getElementById('divDisplay')
+	  document.body.style.fontFamily = 'Courier New'
+	  theDisplay.innerHTML = the2018Competition.getAll()
+	  console.log(the2018Competition) 
+    }
+    window.onload = go
+  </script> 
+</body> 
+ 
+</html>
