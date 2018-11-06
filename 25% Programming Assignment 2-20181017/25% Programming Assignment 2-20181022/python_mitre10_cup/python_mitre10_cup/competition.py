@@ -73,6 +73,7 @@ class Competition(object):
         result += self.get_games()
         result += self.get_canterbury_games()
         result += self.get_cross_over_games()
+        result += self.get_standings()
         return result
 
     def get(self):
@@ -80,5 +81,48 @@ class Competition(object):
         for g in self.all_games:
             result.append( g.when.isformat(), g.home_team.rank,  g.away_team.rank)
 
-    def getResults(self):
-        result =
+    def find_game_by_rank(self, home_team_rank, away_team_rank):
+        for a_game in self.all_games:
+            htr = a_game.home_team.rank
+            atr = a_game.away_team.rank
+            if (htr == home_team_rank) & (atr == away_team_rank):
+                return a_game
+
+
+    def set_result(self,home_team_rank, home_team_score, home_team_tries, away_team_rank, away_team_score, away_team_tries):
+        a_game = self.find_game_by_rank(home_team_rank, away_team_rank)
+        a_game.set_results(home_team_score, away_team_score)
+        a_game.home_team_tries = home_team_tries
+        a_game.away_team_tries = away_team_tries
+
+
+    def get_standings(self):
+        result = ""
+        for a_team in self.all_teams:
+            self.set_standings(a_team)
+        self.sort_standings(self.all_premiership_teams)#######
+        result += f'\n Standings \n {self.sponsor} Premiership \n'
+        for a_team in self.all_premiership_teams:
+            result += f'\n{a_team.name} {a_team.get()}\n'#####
+        self.sort_standings(self.all_championship_teams)
+        result += f'\n\n {self.sponsor} CHAMPIONSHIP \n'
+        for a_team in self.all_championship_teams:
+            result += f'\n{a_team.name}\n {a_team.get()}\n'
+        return result
+
+    def sort_standings(self, team_list):
+        team_list.sort(key=lambda team : team.games_won, reverse=True)
+
+
+
+
+    def set_standings(self,a_team):
+        for a_game in self.all_games:
+            if a_game.has_team(a_team.name):
+                a_team.standings(a_game)#########
+
+
+
+
+
+
