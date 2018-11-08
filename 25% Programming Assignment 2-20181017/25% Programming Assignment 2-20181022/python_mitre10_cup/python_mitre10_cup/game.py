@@ -4,10 +4,6 @@ class Game(object):
         self.when = new_date
         self.home_team = the_home_team
         self.away_team = the_away_team
-        self.home_team_score = 0
-        self.away_team_score = 0
-        self.home_team_tries = 0
-        self.away_team_tries = 0
         if the_home_team:
             self.venue = the_home_team.get_venue()
 
@@ -21,8 +17,6 @@ class Game(object):
         result = f'\t{date}\t{self.home_team} v {self.away_team}'
         result = result.ljust(60)
         result += self.venue
-        result = result.ljust(130)
-        result += self.add_scores()
         return result
 
     def get(self):
@@ -32,12 +26,7 @@ class Game(object):
         result = f'\t{date}\t{self.home_team} v {self.away_team}'
         result = result.ljust(70)
         result += self.venue
-        result = result.ljust(130)
-        result += self.add_scores()
         return result
-
-    def add_scores(self):
-        return f'\t{self.away_team_score} - {self.home_team_score} '
 
     def has_team(self, target_team_name):
         return self.home_team.name == target_team_name or self.away_team.name == target_team_name
@@ -47,10 +36,3 @@ class Game(object):
         away_division = (self.away_team.rank - 1 ) // 7
         is_different_division = home_division != away_division
         return is_different_division
-
-    def set_results(self,home_score, away_score):
-        self.home_team_score = home_score
-        self.away_team_score = away_score
-
-    def is_home_team(self, team):
-        return team.name == self.home_team.name
